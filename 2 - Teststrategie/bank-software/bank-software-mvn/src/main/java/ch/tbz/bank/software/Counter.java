@@ -4,15 +4,10 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * This class simulates a bank counter. It can be used with different banks.
- * @author Thomas Trüb
- */
 public class Counter {
     private Scanner sc;
     private static int counterId = 0;
     private Bank bank;
-
 
     public Counter(Bank bank) {
         sc = new Scanner(System.in);
@@ -21,9 +16,6 @@ public class Counter {
         System.out.println("Willkommen am Schalter " + counterId + "!");
     }
 
-    /**
-     * Lets the user select an account, create a new account or check exchange rate
-     */
     public int chooseAccount() {
         do {
             System.out.println("___" );
@@ -45,7 +37,6 @@ public class Counter {
                 continue;
             }
             else {
-                // if input is a character
                 switch (str.substring(0, 1)) {
                     case "q" -> {
                         sayGoodbye();
@@ -60,7 +51,6 @@ public class Counter {
                 }
             }
 
-            // if input is a number
             try {
                 int accNr =Integer.parseInt(str);
                 Account acc = bank.getAccount(accNr);
@@ -81,11 +71,6 @@ public class Counter {
         } while (true);
     }
 
-    /**
-     * Actions for account editing.
-     * @param accountNo The Account that should be edited.
-     * @return Returns a boolean value that is used in do-while loop in main.
-     */
     public boolean editAccount(int accountNo) {
 
         Account acc = bank.getAccount(accountNo);
@@ -127,24 +112,23 @@ public class Counter {
                 case "q" -> {
                     sayGoodbye();
                     sc.close();
-                    return false; // exit loop in main > terminate app
+                    return false;
                 }
                 case "l" -> {
-                    // = start over loop in main
                     if (getConfirmation()) {
                         bank.deleteAccount(acc);
                     }
                     else {
                         System.out.println("! Aktion abgebrochen.");
                     }
-                    return true; // = start over loop in main
+                    return true;
                 }
                 case "w" -> {
-                    return true; // = start over loop in main
+                    return true;
                 }
             }
 
-        } while (true); // loop will be left by return statements
+        } while (true);
     }
 
     private boolean getConfirmation() {
@@ -156,10 +140,6 @@ public class Counter {
         return str.equals("j");
     }
 
-    /**
-     * Transfer money from one account to the other
-     * @param accFrom Account from with to transfer money
-     */
     private void transfer(Account accFrom) {
         System.out.println("___" );
         System.out.println("> Auf welches Konto soll überwiesen werden?:");
@@ -231,15 +211,7 @@ public class Counter {
         } while(true);
     }
 
-    /**
-     * Converts an amount from one currency to another.
-     * @param amount The amount of money
-     * @param currencyFrom The currency of the account from which to transfer money
-     * @param currencyTo The currency of the account to which transfer money
-     * @return Returns converted amount of money
-     */
     private double convertCurrency(double amount, Currency currencyFrom, Currency currencyTo) {
-        // For example:
         final double RATIO_USD_TO_CHF = 1.11;
         final double RATIO_USD_TO_EUR = 0.91;
         final double RATIO_CHF_TO_USD = 0.9;
@@ -342,9 +314,6 @@ public class Counter {
         }
     }
 
-    /**
-     * Gets user input for the exchange rate api call.
-     */
     private void getExchangeRate() {
 
         String currencies = "USD|EUR|CHF";
@@ -378,4 +347,3 @@ public class Counter {
     }
 
 }
-

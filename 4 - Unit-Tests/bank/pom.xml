@@ -25,7 +25,6 @@
 
 	<build>
 		<plugins>
-			<!-- JaCoCo misst die Code Coverage, Report unter target/site/jacoco -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>

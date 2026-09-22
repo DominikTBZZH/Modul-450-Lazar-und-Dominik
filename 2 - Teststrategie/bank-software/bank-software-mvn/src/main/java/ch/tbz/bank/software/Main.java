@@ -2,11 +2,6 @@ package ch.tbz.bank.software;
 
 import java.io.IOException;
 
-/**
- * This console app simulates a bank counter that lets the user do basic banking business.
- * @author Thomas Trüb
- * @version 1.0
- */
 public class Main {
     public static void main(String[] args) throws IOException {
 

@@ -1,6 +1,5 @@
 package ch.tbz.bank.software;
 
-
 import java.util.ArrayList;
 public class Bank {
 
@@ -23,9 +22,6 @@ public class Bank {
     public void deleteAccount(Account a) {
         System.out.println("Konto mit Nummer " + a.getId() + " wurde gelöscht.");
         accounts.remove(a);
-//      The following doesn't work, is copy of a; no passing by reference in Java
-//      a.pseudoDeleteAccount();
-//      a = null;
     }
 
     public Account getAccount(int nr) {
@@ -34,9 +30,6 @@ public class Bank {
                 return a;
             }
         }
-
-        // Todo: Möglichkeit mit Lambda-Funktion? Im Sinne von:
-        // Account a = accounts.get(a -> (a.getId() == Nr));
 
         return null;
     }
@@ -75,4 +68,3 @@ public class Bank {
     }
 
 }
-

@@ -3,7 +3,7 @@ public class TestTreiber {
     public static void main(String[] args) {
         boolean ergebnis = test_calculate_price();
         System.out.println();
-        System.out.println("Alle Testfaelle OK? " + ergebnis);
+        System.out.println("Alle Testfälle OK? " + ergebnis);
     }
 
     static boolean test_calculate_price() {

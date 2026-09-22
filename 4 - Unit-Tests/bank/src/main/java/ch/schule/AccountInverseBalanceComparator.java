@@ -5,14 +5,6 @@ import java.util.*;
 public class AccountInverseBalanceComparator
 	implements Comparator<Object>
 {
-	/**
-	 * Vergleicht zwei Konten nach ihrem Kontostand
-	 *
-	 * @param o1 erstes Konto
-	 * @param o2 zweites Konto
-	 *
-	 * @return int (Ganzzahl gemäss "compare"-Definition)
-	 */
 	public int compare(Object o1, Object o2)
 	{
 		Account a1 = (Account) o1;
@@ -23,8 +15,5 @@ public class AccountInverseBalanceComparator
 
 		return b1 < b2 ? -1 : (b1 > b2 ? 1 : 0);
 
-		// wenn b1 und b2 ein "int" wäre, könnte man
-		// schreiben:
-		// return b1 - b2;
 	}
 }
