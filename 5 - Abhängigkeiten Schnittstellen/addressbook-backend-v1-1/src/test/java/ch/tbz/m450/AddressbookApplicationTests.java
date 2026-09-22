@@ -10,10 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Integrationstest fuer die Anwendungsklasse: der Spring-Kontext startet und die
- * Beans sind samt H2 verdrahtet. Hier wird bewusst nichts weggemockt.
- */
 @SpringBootTest
 class AddressbookApplicationTests {
 

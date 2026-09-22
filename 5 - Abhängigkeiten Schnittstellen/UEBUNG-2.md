@@ -4,26 +4,22 @@ Starten und Testen wie in [UEBUNG-1.md](UEBUNG-1.md).
 
 ## Was wir gemacht haben
 
-* **Comparator erweitert**: Er kann jetzt nach jedem Attribut einer Adresse sortieren und in beide
-  Richtungen. Dafür sind zwei Enums dazugekommen:
+Der Comparator sortiert jetzt nach jedem Attribut und in beide Richtungen, dafür zwei neue Enums:
 
-  ```java
-  public enum SortField { ID, FIRSTNAME, LASTNAME, PHONENUMBER, REGISTRATION_DATE }
-  public enum SortDirection { ASC, DESC }
-  ```
+```java
+public enum SortField { ID, FIRSTNAME, LASTNAME, PHONENUMBER, REGISTRATION_DATE }
+public enum SortDirection { ASC, DESC }
+```
 
-  Beispiele: `new AddressComparator(FIRSTNAME)`, `new AddressComparator(DESC, PHONENUMBER)` oder
-  `new AddressComparator(REGISTRATION_DATE, LASTNAME)` für zwei Felder nacheinander.
-  Der leere Konstruktor bleibt und sortiert wie in Aufgabe 1, damit der Service unverändert läuft.
+Aufruf: `new AddressComparator(FIRSTNAME)`, `new AddressComparator(DESC, PHONENUMBER)` oder
+`new AddressComparator(REGISTRATION_DATE, LASTNAME)` für zwei Felder nacheinander. Der leere
+Konstruktor sortiert wie in Aufgabe 1, der Service bleibt unverändert.
 
-* **Neue Funktionalität getestet** — 19 zusätzliche Tests. Die Testadressen sind so gewählt, dass jedes
-  Attribut eine andere Reihenfolge ergibt, ein Test kann also nicht zufällig grün sein. Getestet werden
-  alle fünf Felder, beide Richtungen, die Kombination von zwei Feldern und die Fehlerfälle
-  (leere Feldliste, `null` als Feld oder Richtung → `IllegalArgumentException`).
-
-  Zwei Tests laufen über `@EnumSource`, damit ein neues `SortField` automatisch mitgetestet wird.
+9 Tests in `AddressComparatorSortFieldTest`: alle fünf Felder, `DESC`, zwei Felder kombiniert und
+die Fehlerfälle mit `IllegalArgumentException`. Die drei Testadressen ergeben pro Attribut eine
+andere Reihenfolge, ein Test kann also nicht zufällig grün sein. Der `@ParameterizedTest` mit
+`@EnumSource(SortField.class)` deckt jedes Feld ab, auch ein neues.
 
 ## Nicht gemacht
 
-Die Sortierung über die REST-Schnittstelle wählbar zu machen war nicht Teil der Aufgabe.
-Der Comparator wäre dafür bereit, es fehlt nur das Durchreichen vom Controller zum Service.
+Die Sortierung über die Schnittstelle wählbar zu machen war nicht Teil der Aufgabe.

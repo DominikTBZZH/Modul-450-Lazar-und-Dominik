@@ -11,19 +11,21 @@ Terminal im Ordner `addressbook-backend-v1-1`:
 .\mvnw.cmd spring-boot:run   # Server auf http://localhost:8080
 ```
 
-Unter Linux/Mac `./mvnw`. Beenden mit `Strg + C`.
-
 ## Was wir gemacht haben
 
-* **Tests für alle Klassen geschrieben** — 54 Tests in 6 Klassen, alle grün:
-  Entity, Comparator, Service, Controller und Spring-Kontext.
-* **`@BeforeEach` überall verwendet**, dazu `@DisplayName`, `@ParameterizedTest`, `@EnumSource`,
-  `@Mock`, `@InjectMocks` und `@Captor`.
-* **H2 weggemockt**: Der Service wird mit einem Mockito-Mock des Repositories getestet, dadurch
-  startet weder Spring noch eine Datenbank. Verwendete Test Doubles: Mock, Stub, Spy, Fake und ArgumentCaptor.
-* **Comparator korrekt implementiert**: Die Vorgabe gab immer `-1` zurück und sortierte damit gar nicht.
-  Jetzt wird nach Nachname → Vorname → Registrierungsdatum sortiert, leere Werte landen am Ende.
+23 Tests, alle grün: Entity (2), Comparator (4), Service (4), Controller (3), Sortierfelder aus
+Aufgabe 2 (9), dazu ein Test für den Start der Anwendung.
+
+`@BeforeEach` baut die Testdaten in jeder Klasse neu auf, dazu `@DisplayName`, `@ParameterizedTest`
+mit `@EnumSource`, `@Mock`, `@InjectMocks`, `@Captor` und `@SpringBootTest`.
+
+Der Service läuft im Test ohne H2. Statt des Repositories bekommt er einen Mock,
+`when(...).thenReturn(...)` gibt vor, was dieser liefert, `verify(...)` und ein ArgumentCaptor
+prüfen, was der Service weitergibt.
+
+Der Comparator der Vorgabe gab immer `-1` zurück und sortierte gar nicht. Jetzt sortiert er nach
+Nachname, Vorname und Registrierungsdatum, fehlende Werte landen am Ende.
 
 ## Gegenprobe
 
-Mit dem alten `return -1` fallen 19 der 54 Tests durch. Die Tests hätten den Fehler also gefunden.
+Mit `return -1` fallen 9 der 23 Tests durch.
