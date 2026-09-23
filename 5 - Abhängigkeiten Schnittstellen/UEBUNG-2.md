@@ -19,7 +19,3 @@ Konstruktor sortiert wie in Aufgabe 1, der Service bleibt unverändert.
 die Fehlerfälle mit `IllegalArgumentException`. Die drei Testadressen ergeben pro Attribut eine
 andere Reihenfolge, ein Test kann also nicht zufällig grün sein. Der `@ParameterizedTest` mit
 `@EnumSource(SortField.class)` deckt jedes Feld ab, auch ein neues.
-
-## Nicht gemacht
-
-Die Sortierung über die Schnittstelle wählbar zu machen war nicht Teil der Aufgabe.
