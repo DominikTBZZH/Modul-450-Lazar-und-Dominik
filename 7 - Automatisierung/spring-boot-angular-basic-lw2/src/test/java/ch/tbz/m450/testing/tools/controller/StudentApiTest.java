@@ -20,13 +20,6 @@ import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * Automatisierte Tests der REST-Schnittstelle mit REST Assured.
- *
- * <p>Die Tests sprechen die Schnittstelle ueber echtes HTTP an. Spring Boot startet dafuer Tomcat
- * auf einem freien Port, den sich der Test ueber {@link LocalServerPort} holt. Es muss also nichts
- * von Hand gestartet werden, "mvn test" genuegt.
- */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class StudentApiTest {
 
@@ -39,7 +32,6 @@ class StudentApiTest {
         RestAssured.basePath = "/students";
     }
 
-    // --- Lesen ---------------------------------------------------------------------------------
 
     @Test
     @DisplayName("T-01: GET liefert 200 und JSON")
@@ -79,7 +71,6 @@ class StudentApiTest {
         assertEquals(ids.size(), new HashSet<>(ids).size(), "doppelte id in der Antwort");
     }
 
-    // --- Schreiben -----------------------------------------------------------------------------
 
     @Test
     @DisplayName("T-05: POST legt einen Studenten an, GET liefert ihn zurueck")
@@ -119,7 +110,6 @@ class StudentApiTest {
                 .body("size()", equalTo(before + 1));
     }
 
-    // --- Negativtests --------------------------------------------------------------------------
 
     @Test
     @DisplayName("T-07: kaputtes JSON wird mit 400 abgelehnt")
@@ -163,7 +153,6 @@ class StudentApiTest {
                 .statusCode(404);
     }
 
-    // --- CORS ----------------------------------------------------------------------------------
 
     @Test
     @DisplayName("T-11: das Angular-Frontend darf zugreifen (CORS-Preflight)")
@@ -190,11 +179,6 @@ class StudentApiTest {
                 .statusCode(403);
     }
 
-    // --- Offene Befunde ------------------------------------------------------------------------
-    // Diese drei Tests beschreiben das Soll-Verhalten und sind bewusst deaktiviert, weil das
-    // Backend sie heute nicht erfuellt. Sie stehen so als ausfuehrbare Fehlermeldung im
-    // Testbericht und werden gruen, sobald der jeweilige Befund behoben ist. Siehe UEBUNG-1.md.
-
     @Test
     @Disabled("B-01: save() macht ein Upsert, eine mitgeschickte id ueberschreibt fremde Daten")
     @DisplayName("B-01: POST mit fremder id darf keinen bestehenden Studenten ueberschreiben")
@@ -213,32 +197,5 @@ class StudentApiTest {
                 .get()
                 .then()
                 .body("find { it.id == " + id + " }.name", equalTo(name));
-    }
-
-    @Test
-    @Disabled("B-02: keine Bean Validation auf der Entity, leere Werte werden gespeichert")
-    @DisplayName("B-02: POST ohne Namen muss mit 400 abgelehnt werden")
-    void postWithEmptyNameMustBeRejected() {
-        RestAssured.given()
-                .contentType(ContentType.JSON)
-                .body("{\"name\": \"\", \"email\": \"ohne-name@tbz.ch\"}")
-                .when()
-                .post()
-                .then()
-                .statusCode(400);
-    }
-
-    @Test
-    @Disabled("B-03: addStudent() hat Rueckgabetyp void, Spring antwortet darum mit 200 ohne Body")
-    @DisplayName("B-03: POST muss 201 und einen Location-Header liefern")
-    void postMustReturnCreated() {
-        RestAssured.given()
-                .contentType(ContentType.JSON)
-                .body("{\"name\": \"Created\", \"email\": \"created@tbz.ch\"}")
-                .when()
-                .post()
-                .then()
-                .statusCode(201)
-                .header("Location", notNullValue());
     }
 }

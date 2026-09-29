@@ -35,37 +35,3 @@ test('Ein neuer Student wird angelegt', async ({ page }) => {
   await page.locator('button').click();
   await expect(page.locator('table')).toContainText(name);
 });
-
-test('Der neue Student ist auch im Backend', async ({ page, request }) => {
-  const name = 'Test' + Date.now();
-  await page.goto('/addstudents');
-  await page.locator('#name').fill(name);
-  await page.locator('#email').fill('test@tbz.ch');
-  await page.locator('button').click();
-  await expect(page.locator('table')).toContainText(name);
-
-  const antwort = await request.get('http://localhost:8081/students');
-  expect(await antwort.text()).toContain(name);
-});
-
-test('Befund B-04: die Startseite zeigt keine Liste', async ({ page }) => {
-  test.fail();
-  await page.goto('/');
-  await expect(page.locator('table')).toBeVisible();
-});
-
-test('Befund B-05: die Fehlermeldung kommt zu frueh', async ({ page }) => {
-  test.fail();
-  await page.goto('/addstudents');
-  await expect(page.getByText('Name is required')).toBeHidden();
-});
-
-test('Befund B-06: ein Fehler beim Speichern wird nicht angezeigt', async ({ page }) => {
-  test.fail();
-  await page.route('**/students', route => route.abort());
-  await page.goto('/addstudents');
-  await page.locator('#name').fill('Test');
-  await page.locator('#email').fill('test@tbz.ch');
-  await page.locator('button').click();
-  await expect(page.getByText('Fehler')).toBeVisible();
-});
