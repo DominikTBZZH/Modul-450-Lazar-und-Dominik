@@ -4,24 +4,12 @@ import java.text.*;
 
 public class BankUtils
 {
-	/**
-	 * Formatiere für zweistellige Zahlen.
-	 */
 	public static final DecimalFormat TWO_DIGIT_FORMAT
 		= new DecimalFormat("00");
 
-	/**
-	 * Formatierer für Beträge.
-	 */
 	public static final DecimalFormat AMOUNT_FORMAT
 		= new DecimalFormat("#,##0.00");
 
-	/**
-	 * Formatiert ein Banktag-Datum.
-	 *
-	 * @param date das zu formatierende Datum
-	 * @return String das formatierte Datum
-	 */
 	public static String formatBankDate(int date)
 	{
 	    int year = 1970 + date / 360;
@@ -39,11 +27,6 @@ public class BankUtils
 		return s;
 	}
 
-	/**
-	 * Formatiert einen Betrag
-	 * @param amount der zu formatierende Betrag in Millirappen
-	 * @return String der formatierte Betrag
-	 */
 	public static String formatAmount(long amount)
 	{
 		String s = AMOUNT_FORMAT.format(amount / 100000.0);

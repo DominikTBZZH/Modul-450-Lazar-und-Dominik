@@ -1,38 +1,18 @@
 package ch.schule;
 import java.util.*;
 
-/**
- * Die Bank.
- *
- * @author luigicavuoti
- * @version 2.0
- */
 public class Bank
 {
-	/**
-	 * Liste aller Konti.
-	 */
 	private TreeMap<String, Account> accounts;
 
-	/**
-	 * Nächste Kontonummer (numerisch).
-	 */
 	private int nextAccountId;
 
-	/**
-	 * Initialisiert eine neue Bank.
-	 */
 	public Bank()
 	{
 		this.accounts = new TreeMap<String, Account>();
 		this.nextAccountId = 1000;
 	}
 
-	/**
-	 * Erzeugt ein neues Sparkonto
-	 *
-	 * @return die neue Kontonummer
-	 */
 	public String createSavingsAccount()
 	{
 		String id = "S-" + nextAccountId;
@@ -43,13 +23,8 @@ public class Bank
 		return id;
 	}
 
-	/**
-	 * Erzeugt ein neues Promo-Jugendsparkonto
-	 *
-	 * @return die neue Kontonummer
-	 */
 	public String createPromoYouthSavingsAccount()
-	{       // 
+	{
 		String id = "Y-" + nextAccountId;
 
 		++nextAccountId;
@@ -60,14 +35,9 @@ public class Bank
 		return id;
 	}
 
-	/**
-	 * Erzeugt ein neues Lohnkonto
-	 * @param creditLimit Kreditlimite (negative Zahl)
-	 * @return String die neue Kontonummer
-	 */
 	public String createSalaryAccount(long creditLimit)
 	{
-		if (creditLimit > 0) // ungültiger Parameter?
+		if (creditLimit > 0)
 		{
 			return null;
 		}
@@ -77,13 +47,8 @@ public class Bank
 		accounts.put(id,new SalaryAccount(id, creditLimit));
 
 		return id;
-	
+
         }
-	/**
-	 * Gibt den Kontostand der Bank zurück.
-	 *
-	 * @return long der Kontostand der Bank
-	 */
 	public long getBalance()
 	{
 		long balance = 0;
@@ -98,18 +63,6 @@ public class Bank
 		return balance;
 	}
 
-	/**
-	 * Gibt den Kontostand des Kontos mit der gegebenen
-	 * Kontonummer zurück.
-	 *
-	 * <p>
-	 * Falls kein Konto mit der gesuchten Kontonummer
-	 * existiert, gibt diese Methode 0 (zero) zurück.
-	 * </p>
-	 *
-	 * @param id die Kontonummer
-	 * @return long der Kontostand des Kontos
-	 */
 	public long getBalance(String id)
 	{
 		Account a = (Account) accounts.get(id);
@@ -120,71 +73,30 @@ public class Bank
 		return a.getBalance();
 	}
 
-	/**
-	 * Zahlt den gegebenen Betrag auf das Konto mit
-	 * der gegebenen Kontonummer ein.
-	 *
-	 * <p>
-	 * Diese Methode kann <code>false</code> zurückgeben,
-	 * falls das Konto nicht existiert, oder falls die
-	 * Einzahlung auf dem Konto nicht funktioniert.
-	 * </p>
-	 *
-	 * @param id die Kontonummer
-	 * @param date das Transaktionsdatum
-	 * @param amount der einzuzahlende Betrag
-	 * @return boolean ob die Einzahlung erfolgreich war
-	 */
 	public boolean deposit(String id, int date,
 						   long amount)
 	{
-		// 1. Konto suchen
 		Account a = (Account) accounts.get(id);
 
 		if (a == null)
-			return false; // nicht gefunden
+			return false;
 
-	    // Einzahlen und Erfolg zurückgeben
 		return a.deposit(date, amount);
 	}
 
-	/**
-	 * Hebt den gegebenen Betrag vom Konto mit
-	 * der gegebenen Kontonummer ab.
-	 *
-	 * <p>
-	 * Diese Methode kann <code>false</code> zurückgeben,
-	 * falls das Konto nicht existiert, oder falls das
-	 * Abheben vom Konto nicht funktioniert.
-	 * </p>
-	 *
-	 * @param id die Kontonummer
-	 * @param date das Transaktionsdatum
-	 * @param amount der abzuhebende Betrag
-	 * @return boolean ob das Abheben erfolgreich war
-	 */
 	public boolean withdraw(String id, int date,
 							long amount)
 	{
-		// 1. Konto suchen
 		Account a = (Account) accounts.get(id);
 
 		if (a == null)
-			return false; // nicht gefunden
+			return false;
 
-		// Abheben und Erfolg zurückgeben
 		return a.withdraw(date, amount);
 	}
 
-	/**
-	 * Druckt den Kontoauszug des Kontos mit der gegebenen
-	 * Kontonummer.
-	 *
-	 * @param id die Kontonummer des zu druckenden Kontos
-	 */
 	public void print(String id)
 	{
-		// 1. Konto suchen
 		Account a = (Account) accounts.get(id);
 
 	    if (a == null)
@@ -193,17 +105,8 @@ public class Bank
 	    a.print();
 	}
 
-	/**
-	 * Druckt den Kontoauszug des Kontos mit der gegebenen
-	 * Kontonummer für den gegebenen Monat.
-	 *
-	 * @param id die Kontonummer des zu druckenden Kontos
-	 * @param year das Jahr
-	 * @param month der Monat
-	 */
 	public void print(String id, int year, int month)
 	{
-		// 1. Konto suchen
 		Account a = (Account) accounts.get(id);
 
 		if (a == null)
@@ -212,9 +115,6 @@ public class Bank
 		a.print(year, month);
 	}
 
-	/**
-	 * Druckt die fünf Konten mit dem höchsten Saldo.
-	 */
 	public void printTop5()
 	{
 		Account[] aa = (Account[]) accounts.values().toArray(
@@ -229,9 +129,6 @@ public class Bank
 		}
 	}
 
-	/**
-	 * Druckt die fünf Konten mit dem höchsten Saldo.
-	 */
 	public void printBottom5()
 	{
 		Account[] aa = (Account[]) accounts.values().toArray(
@@ -247,26 +144,12 @@ public class Bank
 		}
 	}
 
-	/** 
-	 * @uml.property name="account"
-	 * @uml.associationEnd aggregation="shared" inverse="bank:ch.schule.m326.bank.Account"
-	 */
 	private Account account;
 
-	/** 
-	 * Getter of the property <tt>account</tt>
-	 * @return  Returns the account.
-	 * @uml.property  name="account"
-	 */
 	public Account getAccount() {
 		return account;
 	}
 
-	/** 
-	 * Setter of the property <tt>account</tt>
-	 * @param account  The account to set.
-	 * @uml.property  name="account"
-	 */
 	public void setAccount(Account account) {
 		this.account = account;
 	}
