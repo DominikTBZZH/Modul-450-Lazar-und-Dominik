@@ -74,7 +74,7 @@ function AddRecipe() {
                     onClick={() => append(EMPTY_INGREDIENT)}
                     className="mt-1"
                 >Add Ingredient</Button>
-                <Button variant="primary" type="submit" className="mb-5" disabled={isSubmitting}>
+                <Button variant="primary" type="submit" className="mb-5 ms-2" disabled={isSubmitting}>
                     Submit
                 </Button>
             </Form>
