@@ -3,6 +3,7 @@ package ch.tbz.recipe.planner.controller;
 import ch.tbz.recipe.planner.domain.Ingredient;
 import ch.tbz.recipe.planner.domain.Recipe;
 import ch.tbz.recipe.planner.domain.Unit;
+import ch.tbz.recipe.planner.exception.RecipeNotFoundException;
 import ch.tbz.recipe.planner.mapper.RecipeEntityMapper;
 import ch.tbz.recipe.planner.repository.RecipeRepository;
 import ch.tbz.recipe.planner.service.RecipeService;
@@ -100,14 +101,13 @@ class RecipeControllerTest {
     }
 
     @Test
-    @DisplayName("GET /api/recipes/recipe/{id} mit unbekannter ID liefert 200 ohne Body")
-    void getRecipe_unknownId_returnsEmptyBody() throws Exception {
+    @DisplayName("GET /api/recipes/recipe/{id} mit unbekannter ID liefert 404")
+    void getRecipe_unknownId_returnsNotFound() throws Exception {
         UUID unknown = UUID.randomUUID();
-        when(service.getRecipeById(unknown)).thenReturn(null);
+        when(service.getRecipeById(unknown)).thenThrow(new RecipeNotFoundException(unknown));
 
         mockMvc.perform(get("/api/recipes/recipe/{id}", unknown))
-                .andExpect(status().isOk())
-                .andExpect(content().string(""));
+                .andExpect(status().isNotFound());
     }
 
     @Test
