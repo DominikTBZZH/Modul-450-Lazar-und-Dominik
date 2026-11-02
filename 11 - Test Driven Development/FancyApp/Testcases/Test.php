@@ -6,12 +6,12 @@
  * Time: 22:01
  */
 
-require_once('../Application/MyFancyClass.php');
+require_once(__DIR__ . '/../Application/MyFancyClass.php');
 
 // for newer PHPUnit uncomment this line
-//use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 
-class Test extends PHPUnit_Framework_TestCase // for newer PHPUnit: TestCase; for older PHPUnit: PHPUnit_Framework_TestCase
+class Test extends TestCase // for newer PHPUnit: TestCase; for older PHPUnit: PHPUnit_Framework_TestCase
 {
     private $_myFancyClass;
 
