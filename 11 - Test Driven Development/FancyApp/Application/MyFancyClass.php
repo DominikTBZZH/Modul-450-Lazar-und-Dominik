@@ -29,7 +29,22 @@ class MyFancyClass
         return mb_substr($text, 0, $length - mb_strlen($ending)) . $ending;
     }
 
+    /**
+     * Berechnet den Durchschnitt von $values (Zahlen oder numerische Strings).
+     * Leeres Array ergibt 0, ein nicht-numerischer Wert ergibt false.
+     */
     public function calcAverage($values) {
+        if (count($values) === 0) {
+            return 0;
+        }
+
+        foreach ($values as $value) {
+            if (!is_numeric($value)) {
+                return false;
+            }
+        }
+
+        return array_sum($values) / count($values);
     }
 
     public function getOpposite($value, $delimiter = ',') {
