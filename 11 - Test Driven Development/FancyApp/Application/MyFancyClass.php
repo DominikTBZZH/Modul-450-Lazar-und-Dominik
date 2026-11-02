@@ -47,6 +47,20 @@ class MyFancyClass
         return array_sum($values) / count($values);
     }
 
+    /**
+     * Wandelt ein Array in einen String um (implode) und einen String in ein
+     * Array (explode). Alle anderen Typen ergeben false.
+     */
     public function getOpposite($value, $delimiter = ',') {
+        if (is_array($value)) {
+            return implode($delimiter, $value);
+        }
+
+        // explode wirft ab PHP 8 bei leerem Trennzeichen einen ValueError
+        if (is_string($value) && $delimiter !== '') {
+            return explode($delimiter, $value);
+        }
+
+        return false;
     }
 }
