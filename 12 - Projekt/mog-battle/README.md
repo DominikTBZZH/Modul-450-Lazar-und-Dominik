@@ -68,6 +68,8 @@ flowchart LR
 
 ## Teststrategie
 
+Das ausführliche Testkonzept mit allen Testfällen steht in [12.2 - Testkonzept](../12.2%20-%20Testkonzept/README.md).
+
 | Ebene | Klasse | Was | Mocks |
 |---|---|---|---|
 | Unit | `MogEngineTest` | Score, Verdict-Grenzwerte (4/5, 14/15) mit `@ParameterizedTest`, Battle-Regeln | keine |
