@@ -3,11 +3,20 @@ package ch.tbz.mogbattle.engine;
 import ch.tbz.mogbattle.model.BattleResult;
 import ch.tbz.mogbattle.model.Chad;
 import ch.tbz.mogbattle.model.Verdict;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MogEngine {
 
+    static final int CLOSE_CALL_LIMIT = 5;
+    static final int MEGAMOG_LIMIT = 15;
+
     public int mogScore(Chad chad) {
-        return chad.getHeight() * 2 + chad.getJawline() * 2 + chad.getAura() + chad.getStatus() + chad.getFrame();
+        return chad.getHeight() * 2
+                + chad.getJawline() * 2
+                + chad.getAura()
+                + chad.getStatus()
+                + chad.getFrame();
     }
 
     public Verdict verdict(int margin) {
@@ -17,24 +26,20 @@ public class MogEngine {
         if (margin == 0) {
             return Verdict.TIE;
         }
-        if (margin < 5) {
+        if (margin < CLOSE_CALL_LIMIT) {
             return Verdict.CLOSE_CALL;
         }
-        if (margin < 15) {
-            return Verdict.MOGGED;
-        }
-        return Verdict.MEGAMOGGED;
+        return margin < MEGAMOG_LIMIT ? Verdict.MOGGED : Verdict.MEGAMOGGED;
     }
 
     public BattleResult battle(Chad a, Chad b, int auraBonusA, int auraBonusB) {
-        int scoreA = mogScore(a) + auraBonusA;
-        int scoreB = mogScore(b) + auraBonusB;
-        if (scoreA == scoreB) {
+        int diff = (mogScore(a) + auraBonusA) - (mogScore(b) + auraBonusB);
+        if (diff == 0) {
             return new BattleResult(null, null, 0, Verdict.TIE);
         }
-        if (scoreA > scoreB) {
-            return new BattleResult(a.getName(), b.getName(), scoreA - scoreB, verdict(scoreA - scoreB));
-        }
-        return new BattleResult(b.getName(), a.getName(), scoreB - scoreA, verdict(scoreB - scoreA));
+        Chad winner = diff > 0 ? a : b;
+        Chad loser = diff > 0 ? b : a;
+        int margin = Math.abs(diff);
+        return new BattleResult(winner.getName(), loser.getName(), margin, verdict(margin));
     }
 }
