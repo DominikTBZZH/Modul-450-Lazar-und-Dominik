@@ -1,1 +1,3 @@
-# Modul-450-Lazar-und-Dominik
+# 12 - Projekt
+
+Unser Projekt: [MogBattle](mog-battle/README.md), mit Teststrategie, Architektur, KI-Deklaration und Reflexion im README.
