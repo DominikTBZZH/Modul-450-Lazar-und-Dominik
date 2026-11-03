@@ -1,0 +1,116 @@
+name: mog-battle
+
+on:
+  push:
+    paths:
+      - "12 - Projekt/mog-battle/**"
+      - ".github/workflows/mog-battle.yml"
+  pull_request:
+    paths:
+      - "12 - Projekt/mog-battle/**"
+      - ".github/workflows/mog-battle.yml"
+  workflow_dispatch:
+
+env:
+  APP_DIR: "12 - Projekt/mog-battle"
+  MAVEN_CLI_OPTS: "--batch-mode --no-transfer-progress"
+
+defaults:
+  run:
+    working-directory: "12 - Projekt/mog-battle"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+      - run: chmod +x mvnw
+      - name: Compile
+        run: ./mvnw $MAVEN_CLI_OPTS compile
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+      - run: chmod +x mvnw
+      - name: Unit- und Integrationstests
+        run: ./mvnw $MAVEN_CLI_OPTS verify
+      - name: Reports auch bei roten Tests erzeugen
+        if: failure()
+        run: ./mvnw $MAVEN_CLI_OPTS surefire-report:report-only jacoco:report
+      - name: Coverage in der Job-Summary
+        if: always()
+        run: |
+          if [ -f target/site/jacoco/jacoco.csv ]; then
+            awk -F, 'NR>1 {m+=$8; c+=$9} END {printf "### Line Coverage: %.1f%%\n", (c*100)/(m+c)}' target/site/jacoco/jacoco.csv >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Testresultate in der Job-Summary
+        if: always()
+        uses: mikepenz/action-junit-report@v6
+        with:
+          report_paths: "${{ env.APP_DIR }}/target/surefire-reports/TEST-*.xml"
+          detailed_summary: true
+          include_passed: true
+      - name: Reports als Artifact
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: mog-battle-reports-${{ github.run_number }}
+          path: |
+            ${{ env.APP_DIR }}/target/surefire-reports/
+            ${{ env.APP_DIR }}/target/site/
+            ${{ env.APP_DIR }}/target/reports/
+      - name: Reports für Pages zusammenstellen
+        if: always()
+        run: |
+          mkdir -p public
+          cp -r target/site/. public/
+          cp -r target/reports/. public/
+          cat > public/index.html <<EOF
+          <!doctype html>
+          <html lang="de">
+          <head><meta charset="utf-8"><title>MogBattle Reports</title></head>
+          <body>
+            <h1>MogBattle – Reports</h1>
+            <p>Lauf #${{ github.run_number }}, Commit ${{ github.sha }}</p>
+            <ul>
+              <li><a href="surefire.html">Surefire Testreport</a></li>
+              <li><a href="jacoco/index.html">JaCoCo Coverage</a></li>
+            </ul>
+          </body>
+          </html>
+          EOF
+      - name: Pages-Artifact hochladen
+        if: always() && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: "${{ env.APP_DIR }}/public"
+
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Auf GitHub Pages veröffentlichen
+        id: deployment
+        uses: actions/deploy-pages@v5
