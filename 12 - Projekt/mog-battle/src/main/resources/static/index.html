@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MogBattle</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>Mog<span>Battle</span></h1>
+    <p class="tagline">Wer mogt wen? Satire mit rein fiktiven Charakteren.</p>
+</header>
+
+<main>
+    <section class="arena">
+        <div class="fighter">
+            <label for="chadA">Chad A</label>
+            <select id="chadA"></select>
+            <div class="stats" id="statsA"></div>
+        </div>
+        <div class="vs">
+            <button id="battleBtn">BATTLE</button>
+            <span>vs</span>
+        </div>
+        <div class="fighter">
+            <label for="chadB">Chad B</label>
+            <select id="chadB"></select>
+            <div class="stats" id="statsB"></div>
+        </div>
+    </section>
+
+    <section id="result" class="result hidden" aria-live="polite">
+        <div id="verdict" class="verdict"></div>
+        <div id="resultText" class="result-text"></div>
+    </section>
+
+    <section>
+        <h2>Leaderboard</h2>
+        <div class="table-wrap">
+        <table>
+            <thead>
+            <tr><th>#</th><th>Name</th><th>Height</th><th>Jawline</th><th>Aura</th><th>Status</th><th>Frame</th><th>Score</th><th>Hypergamy</th></tr>
+            </thead>
+            <tbody id="leaderboard"></tbody>
+        </table>
+        </div>
+        <p id="upgradeText" class="upgrade-text" aria-live="polite"></p>
+    </section>
+
+    <section>
+        <h2>Neuer Chad</h2>
+        <form id="createForm">
+            <input name="name" placeholder="Name" required>
+            <label>Height <input name="height" type="number" min="1" max="10" value="5"></label>
+            <label>Jawline <input name="jawline" type="number" min="1" max="10" value="5"></label>
+            <label>Aura <input name="aura" type="number" min="1" max="10" value="5"></label>
+            <label>Status <input name="status" type="number" min="1" max="10" value="5"></label>
+            <label>Frame <input name="frame" type="number" min="1" max="10" value="5"></label>
+            <button type="submit">Erstellen</button>
+        </form>
+        <p id="formError" class="error"></p>
+    </section>
+</main>
+
+<footer>M450 Projekt · Lazar &amp; Dominik · Alle Charaktere sind erfunden.</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
