@@ -1,0 +1,32 @@
+### Alle Chads
+GET http://localhost:8080/api/chads
+
+### Battle: Gigachad vs Average Andy
+POST http://localhost:8080/api/battles
+Content-Type: application/json
+
+{"chadAId": 1, "chadBId": 2}
+
+### Knappes Battle: Mewing Max vs Tall Tom (Aura-Bonus entscheidet)
+POST http://localhost:8080/api/battles
+Content-Type: application/json
+
+{"chadAId": 3, "chadBId": 4}
+
+### Neuer Chad
+POST http://localhost:8080/api/chads
+Content-Type: application/json
+
+{"name": "Rizz Ricardo", "height": 7, "jawline": 6, "aura": 10, "status": 6, "frame": 7}
+
+### Ungültiger Chad (400)
+POST http://localhost:8080/api/chads
+Content-Type: application/json
+
+{"name": "Cheater Chad", "height": 11, "jawline": 6, "aura": 0, "status": 6, "frame": 7}
+
+### Hypergamy: Upgrade für Average Andy
+GET http://localhost:8080/api/chads/2/upgrade
+
+### Hypergamy: Gigachad ist an der Spitze (404)
+GET http://localhost:8080/api/chads/1/upgrade
