@@ -79,7 +79,7 @@ class MogEngineTest {
     @Test
     @DisplayName("Aura-Bonus kann ein knappes Battle drehen")
     void auraBonusCanFlipBattle() {
-        Chad max = new Chad("Mewing Max", 6, 8, 5, 4, 6);   // 41
+        Chad max = new Chad("Mewing Max", 6, 7, 5, 4, 6);   // 41
         Chad tom = new Chad("Tall Tom", 9, 5, 4, 5, 5);     // 42
 
         BattleResult result = engine.battle(max, tom, 3, 0);
