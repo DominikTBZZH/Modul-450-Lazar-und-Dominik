@@ -7,6 +7,7 @@ import ch.tbz.mogbattle.repository.ChadRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
+import java.util.Optional;
 
 @Service
 public class HypergamyService {
@@ -20,13 +21,24 @@ public class HypergamyService {
     }
 
     public Upgrade findUpgrade(Long chadId) {
-        Chad current = repository.findById(chadId).orElseThrow(() -> new ChadNotFoundException(chadId));
-        int currentScore = engine.mogScore(current);
+        Chad current = load(chadId);
+        Chad next = nextHigherThan(current).orElseThrow(() -> new NoUpgradeException(current.getName()));
+        return toUpgrade(current, next);
+    }
 
+    private Chad load(Long id) {
+        return repository.findById(id).orElseThrow(() -> new ChadNotFoundException(id));
+    }
+
+    /** Sucht unter allen Chads mit höherem Score denjenigen mit dem kleinsten Score. */
+    private Optional<Chad> nextHigherThan(Chad current) {
+        int currentScore = engine.mogScore(current);
         return repository.findAll().stream()
                 .filter(other -> engine.mogScore(other) > currentScore)
-                .min(Comparator.comparingInt(engine::mogScore))
-                .map(next -> new Upgrade(current.getName(), currentScore, next.getName(), engine.mogScore(next)))
-                .orElseThrow(() -> new NoUpgradeException(current.getName()));
+                .min(Comparator.comparingInt(engine::mogScore));
+    }
+
+    private Upgrade toUpgrade(Chad current, Chad next) {
+        return new Upgrade(current.getName(), engine.mogScore(current), next.getName(), engine.mogScore(next));
     }
 }
