@@ -13,7 +13,7 @@ Projekt im Modul M450 von Lazar und Dominik.
 ./mvnw verify               # alle Tests + Reports
 ```
 
-Demo-Requests liegen in [requests.http](requests.http).
+Die Weboberfläche läuft auf http://localhost:8080: Chads wählen, Battle starten, Leaderboard mit Hypergamy-Upgrade und Formular für neue Chads. Demo-Requests für die API liegen in [requests.http](requests.http).
 
 | Methode | Pfad | Zweck |
 |---|---|---|
@@ -39,6 +39,7 @@ Demo-Requests liegen in [requests.http](requests.http).
 | 5 | `feature/chad-api` | REST-API, Validierung, Seed-Daten, Integrationstests |
 | 6 | `feature/hypergamy` | Upgrade-Suche per TDD + Endpoint |
 | 7 | `docs/readme` | Dokumentation, Präsentation |
+| 8 | `feature/battle-ui` | Weboberfläche (HTML/CSS/JS) + Integrationstest |
 
 Scope bewusst klein gehalten: wenige Features, dafür vollständig getestet.
 
@@ -74,6 +75,7 @@ flowchart LR
 | Unit | `HypergamyServiceTest` | nächsthöherer Score, Gleichstand, Top-Chad | `ChadRepository` (Mockito) |
 | Integration | `ChadControllerIT` | HTTP → Controller → Service → echte H2-DB, Validierung | keine |
 | Integration | `BattleControllerIT` | kompletter Battle-Ablauf, 404/400 | nur `AuraOracle` (`@MockitoBean`) |
+| Integration | `FrontendIT` | Startseite, JS und CSS werden ausgeliefert | keine |
 
 - **Warum gemockt?** Das `AuraOracle` ist zufällig. Ohne Mock wären die Ergebnisse nicht reproduzierbar. Das Repository wird in den Unit-Tests gemockt, damit diese ohne Datenbank in Millisekunden laufen.
 - **TDD**: `MogEngine` und `HypergamyService` wurden nach Red → Green → Refactor entwickelt. Jeder Schritt ist ein eigener Commit (`tdd red: ...`, `tdd green: ...`, `tdd refactor: ...`).
