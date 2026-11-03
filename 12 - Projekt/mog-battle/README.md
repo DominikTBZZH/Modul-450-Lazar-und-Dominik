@@ -99,6 +99,8 @@ KI (Claude Code) wurde als **Agent zur Code-Erstellung** eingesetzt: Grundgerüs
 
 ## Reflexion
 
+Wir hatten sehr viel spass beim implementieren. Wir haben gemerkt wie stark man AI nutzen kann aber man muss vorsichtig mit dem sein. Wir gaben diese Strikte Regeln aber die Grundstruktur und wie die Unittests sein sollten haben wir alles vorgegeben. Den Code haben wir auch mehrmals selbst durch reviewt. In Zukunft wird der Code an sich einen viel kleineren Wert haben, was wirklich Wert haben wird ist der Gedanke und die Architektur und das man diese selbst bestimmt.
+
 ### TDD
 
 - Bei der `MogEngine` haben wir zuerst die Tests geschrieben. Dadurch waren die Regeln (Gewichtung, Verdict-Schwellen) schon vor dem Code genau festgelegt.
@@ -107,8 +109,6 @@ KI (Claude Code) wurde als **Agent zur Code-Erstellung** eingesetzt: Grundgerüs
 - Für reine Logik ist TDD sehr angenehm, für Controller und Datenbank-Setup haben wir die Tests eher danach geschrieben.
 
 ### Code Reviews
-
-> _Nach den Reviews ergänzen:_ Was wurde im Review gefunden? Welche Kommentare waren hilfreich? Was würden wir im Berufsalltag übernehmen?
 
 ## Fazit
 
