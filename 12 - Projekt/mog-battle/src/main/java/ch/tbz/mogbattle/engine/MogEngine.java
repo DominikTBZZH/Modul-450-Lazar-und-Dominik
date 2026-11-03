@@ -5,6 +5,6 @@ import ch.tbz.mogbattle.model.Chad;
 public class MogEngine {
 
     public int mogScore(Chad chad) {
-        throw new UnsupportedOperationException("noch nicht implementiert");
+        return chad.getHeight() * 2 + chad.getJawline() * 2 + chad.getAura() + chad.getStatus() + chad.getFrame();
     }
 }
