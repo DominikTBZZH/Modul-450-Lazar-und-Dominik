@@ -11,10 +11,30 @@ public class MogEngine {
     }
 
     public Verdict verdict(int margin) {
-        throw new UnsupportedOperationException("noch nicht implementiert");
+        if (margin < 0) {
+            throw new IllegalArgumentException("Abstand darf nicht negativ sein");
+        }
+        if (margin == 0) {
+            return Verdict.TIE;
+        }
+        if (margin < 5) {
+            return Verdict.CLOSE_CALL;
+        }
+        if (margin < 15) {
+            return Verdict.MOGGED;
+        }
+        return Verdict.MEGAMOGGED;
     }
 
     public BattleResult battle(Chad a, Chad b, int auraBonusA, int auraBonusB) {
-        throw new UnsupportedOperationException("noch nicht implementiert");
+        int scoreA = mogScore(a) + auraBonusA;
+        int scoreB = mogScore(b) + auraBonusB;
+        if (scoreA == scoreB) {
+            return new BattleResult(null, null, 0, Verdict.TIE);
+        }
+        if (scoreA > scoreB) {
+            return new BattleResult(a.getName(), b.getName(), scoreA - scoreB, verdict(scoreA - scoreB));
+        }
+        return new BattleResult(b.getName(), a.getName(), scoreB - scoreA, verdict(scoreB - scoreA));
     }
 }
