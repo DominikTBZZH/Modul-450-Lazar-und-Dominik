@@ -62,6 +62,24 @@ class ChadControllerIT {
     }
 
     @Test
+    @DisplayName("Hypergamy: Mewing Max (41) bekommt Tall Tom (42) als Upgrade")
+    void upgradeForMewingMax() throws Exception {
+        mockMvc.perform(get("/api/chads/3/upgrade"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.current").value("Mewing Max"))
+                .andExpect(jsonPath("$.upgrade").value("Tall Tom"))
+                .andExpect(jsonPath("$.upgradeScore").value(42));
+    }
+
+    @Test
+    @DisplayName("Hypergamy: Gigachad ist an der Spitze, 404")
+    void noUpgradeForGigachad() throws Exception {
+        mockMvc.perform(get("/api/chads/1/upgrade"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.detail", containsString("Spitze")));
+    }
+
+    @Test
     @DisplayName("Leerer Name ergibt 400")
     void rejectsBlankName() throws Exception {
         String body = """

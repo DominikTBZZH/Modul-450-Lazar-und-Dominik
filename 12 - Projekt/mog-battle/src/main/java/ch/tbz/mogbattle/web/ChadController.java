@@ -1,7 +1,9 @@
 package ch.tbz.mogbattle.web;
 
 import ch.tbz.mogbattle.model.Chad;
+import ch.tbz.mogbattle.model.Upgrade;
 import ch.tbz.mogbattle.repository.ChadRepository;
+import ch.tbz.mogbattle.service.HypergamyService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +15,16 @@ import java.util.List;
 public class ChadController {
 
     private final ChadRepository repository;
+    private final HypergamyService hypergamyService;
 
-    public ChadController(ChadRepository repository) {
+    public ChadController(ChadRepository repository, HypergamyService hypergamyService) {
         this.repository = repository;
+        this.hypergamyService = hypergamyService;
+    }
+
+    @GetMapping("/{id}/upgrade")
+    public Upgrade upgrade(@PathVariable Long id) {
+        return hypergamyService.findUpgrade(id);
     }
 
     @GetMapping
