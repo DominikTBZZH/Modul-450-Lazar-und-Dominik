@@ -3,9 +3,7 @@ package ch.tbz.mogbattle.engine;
 import ch.tbz.mogbattle.model.BattleResult;
 import ch.tbz.mogbattle.model.Chad;
 import ch.tbz.mogbattle.model.Verdict;
-import org.springframework.stereotype.Component;
 
-@Component
 public class MogEngine {
 
     static final int CLOSE_CALL_LIMIT = 5;
